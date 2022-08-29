@@ -187,7 +187,7 @@ class XlsProcessor(object):
     
 
     # Формирование .xlsx файла потерянных
-    def get_statistic_file(self):
+    def get_retir_file(self):
         output = io.BytesIO()
         writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
@@ -199,11 +199,11 @@ class XlsProcessor(object):
                                         "borders": {"top": "thin", "right": "thin", "bottom": "thin", "left": "thin"},
                                         "pattern": {"pattern": "solid", "fore_colour": 26},
                                         "alignment": {"horizontal": "center", "vertical": "top"}}
-        self.report_statistic_table.to_excel(writer, sheet_name='Sheet1')
+        self.retir_lost_clients_table.to_excel(writer, sheet_name='Sheet1')
         #finally:
         #    pd.formats.format.header_style = pd.core.format.header_style
         
         writer.save()
         
 
-        return output, "stats.xlsx"
+        return output, "retir.xlsx"
