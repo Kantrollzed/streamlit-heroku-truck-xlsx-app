@@ -78,7 +78,7 @@ if uploaded_report_file is not None:
     st.table(lost_clients_table)
 
     # Таблица -> .xlsx file c возможностью скачать
-    xlsx_retir_file, rfilename = processor.get_statistic_file()
+    xlsx_retir_file, rfilename = processor.get_retir_file()
 
     st.download_button(
             label="Скачать файл потеренных клиентов",
