@@ -62,16 +62,28 @@ if uploaded_report_file is not None:
     #st.write(x)
     st.header("Менеджеры / Магазины")
     st.table(statistic_table)
-    st.header("Потерянные клиенты")
-    st.table(lost_clients_table)
     
     # Таблица -> .xlsx file c возможностью скачать
-    xlsx_file, filename = processor.get_statistic_file()
+    xlsx_static_file, sfilename = processor.get_statistic_file()
+
+
     st.download_button(
             label="Скачать файл",
-            data=xlsx_file.getvalue(),
-            file_name=filename,
+            data=xlsx_static_file.getvalue(),
+            file_name=sfilename,
             mime='text/xls',
     )
     
+    st.header("Потерянные клиенты")
+    st.table(lost_clients_table)
+
+    # Таблица -> .xlsx file c возможностью скачать
+    xlsx_retir_file, rfilename = processor.get_statistic_file()
+
+    st.download_button(
+            label="Скачать файл",
+            data=xlsx_retir_file.getvalue(),
+            file_name=rfilename,
+            mime='text/xls',
+    )
     

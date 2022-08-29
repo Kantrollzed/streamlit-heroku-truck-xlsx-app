@@ -18,6 +18,7 @@ class XlsProcessor(object):
         ]
         self.report_df = None
         self.report_statistic_table = None
+        self.retir_lost_clients_table = None
         self.file_date = [0, 0]
     
     def get_file_date(self):
@@ -157,10 +158,35 @@ class XlsProcessor(object):
             for col in cols:
                 df_rez[col] = df_rez[col].astype('int64')
             self.report_statistic_table = df_rez
-            return self.report_statistic_table, df_lost_clients
+            self.retir_lost_clients_table = df_lost_clients
+            
+            return self.report_statistic_table, self.retir_lost_clients_table
 
     
-    # Формирование .xlsx файла
+    # Формирование .xlsx файла статистики
+    def get_statistic_file(self):
+        output = io.BytesIO()
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
+
+        #workbook  = writer.book
+        #worksheet = writer.sheets['Sheet1']
+
+        #try:
+        pd.io.formats.excel.header_style = {"font": {"bold": True},
+                                        "borders": {"top": "thin", "right": "thin", "bottom": "thin", "left": "thin"},
+                                        "pattern": {"pattern": "solid", "fore_colour": 26},
+                                        "alignment": {"horizontal": "center", "vertical": "top"}}
+        self.report_statistic_table.to_excel(writer, sheet_name='Sheet1')
+        #finally:
+        #    pd.formats.format.header_style = pd.core.format.header_style
+        
+        writer.save()
+        
+
+        return output, "stats.xlsx"
+    
+
+    # Формирование .xlsx файла потерянных
     def get_statistic_file(self):
         output = io.BytesIO()
         writer = pd.ExcelWriter(output, engine='xlsxwriter')
