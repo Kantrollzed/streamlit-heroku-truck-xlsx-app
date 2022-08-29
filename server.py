@@ -63,7 +63,7 @@ if uploaded_report_file is not None:
     st.header("Менеджеры / Магазины")
     st.table(statistic_table)
     st.header("Потерянные клиенты")
-    st.write(lost_clients_table)
+    st.table(lost_clients_table)
     
     # Таблица -> .xlsx file c возможностью скачать
     xlsx_file, filename = processor.get_statistic_file()
