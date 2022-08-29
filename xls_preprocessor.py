@@ -60,7 +60,7 @@ class XlsProcessor(object):
             df_uncalled["uncalled"] = 1
             df_uncalled = df_uncalled[["Клиент", "uncalled"]]
             
-            df = pd.merge(df, df_uncalled, on="Клиент", how="left").fillna(0).drop_duplicates()
+            df = pd.merge(df, df_uncalled, on="Клиент", how="left").fillna(0).drop_duplicates(keep='first')
             
             
             #df["uncalled"] = df[df["Клиент"] == df_uncalled["Клиент"]]
@@ -78,8 +78,8 @@ class XlsProcessor(object):
             #if options[3]:
             df["grouped_column"] = list(zip(df["Дата"].astype(str), df["Время"].astype(str), df["Клиент"]))
             #print(len(df))
-            df_last_call = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Клиент", "Сотрудник", "Должность"])
-            df = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Тип звонка", "Клиент", "Сотрудник", "Должность"])
+            df_last_call = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Клиент", "Сотрудник", "Должность"], keep='first')
+            df = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Тип звонка", "Клиент", "Сотрудник", "Должность"], keep='first')
             
             #print(len(df))
             
@@ -91,6 +91,13 @@ class XlsProcessor(object):
                 .sort_values("Сотрудник")[["Сотрудник", "Должность", "Клиент"]].reset_index().drop(["index"], axis=1)
             df_saved.rename(columns={"Клиент":"Сохранённые*"}, inplace=True)
             df_saved = df_saved.groupby(["Сотрудник", "Должность"]).count().reset_index()
+
+            # Дозвонившиеся
+            df_saved2 = df_last_call[df_last_call["Тип звонка"] == "входящий"]
+            df_saved2 = df_saved2[df_saved2["uncalled"] == 1]\
+                .sort_values("Сотрудник")[["Сотрудник", "Должность", "Клиент"]].reset_index().drop(["index"], axis=1)
+            df_saved2.rename(columns={"Клиент":"Дозвонившиеся"}, inplace=True)
+            df_saved2 = df_saved2.groupby(["Сотрудник", "Должность"]).count().reset_index()
 
             # Потерянные* (Неперезвоненые)
             df_unsaved = df_last_call[df_last_call["Тип звонка"] == "неотвеченный"]
@@ -127,6 +134,7 @@ class XlsProcessor(object):
             df_rez[["Разница"]] = 0
 
             df_rez = df_rez.merge(df_saved, how='outer')
+            df_rez = df_rez.merge(df_saved2, how='outer')
             df_rez = df_rez.merge(df_unsaved, how='outer')
 
             df_rez = df_rez.fillna(0)
@@ -149,7 +157,7 @@ class XlsProcessor(object):
 
             df_rez = df_rez.fillna(0)
             cols = [
-                "Входящие", 'Неотвеченные', 'Сохранённые*', 'Потерянные*', 'Сохранённые', 'Потерянные', 
+                "Входящие", 'Неотвеченные', 'Сохранённые*', 'Потерянные*', 'Сохранённые', 'Потерянные', "Дозвонившиеся",
                 'Разница', 'Исходящие', 'Неуспешный исходящий', 'Итого'
             ]
             for col in cols:
