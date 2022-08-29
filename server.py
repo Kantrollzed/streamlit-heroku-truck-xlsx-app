@@ -68,7 +68,7 @@ if uploaded_report_file is not None:
 
 
     st.download_button(
-            label="Скачать файл",
+            label="Скачать файл статистики",
             data=xlsx_static_file.getvalue(),
             file_name=sfilename,
             mime='text/xls',
@@ -81,7 +81,7 @@ if uploaded_report_file is not None:
     xlsx_retir_file, rfilename = processor.get_statistic_file()
 
     st.download_button(
-            label="Скачать файл",
+            label="Скачать файл потеренных клиентов",
             data=xlsx_retir_file.getvalue(),
             file_name=rfilename,
             mime='text/xls',
