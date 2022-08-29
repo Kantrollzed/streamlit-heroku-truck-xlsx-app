@@ -16,7 +16,7 @@ uploaded_report_file = st.file_uploader("Выберите файл")
 if uploaded_report_file is not None:
     processor = XlsProcessor()
     # Предварительная обработка файла .xlsx
-    processor.set_report_file(uploaded_report_file)
+    st.write(processor.set_report_file(uploaded_report_file))
     # создаём колонки чтобы задать параметры формируемого файла
     file_date = processor.get_file_date()
     st.write("C " + file_date[0] + " по " + file_date[1])
