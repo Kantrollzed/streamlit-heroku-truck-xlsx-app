@@ -75,7 +75,7 @@ if uploaded_report_file is not None:
     )
     
     st.header("Потерянные клиенты")
-    st.table(lost_clients_table)
+    st.write(lost_clients_table)
 
     # Таблица -> .xlsx file c возможностью скачать
     xlsx_retir_file, rfilename = processor.get_retir_file()
