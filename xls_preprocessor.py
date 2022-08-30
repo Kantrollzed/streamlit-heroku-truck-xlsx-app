@@ -75,11 +75,12 @@ class XlsProcessor(object):
             # Считаем уникальных звонивших... 
             # для этого сохраняем для каждого клиента(номера) на конкретный тип звонка только последний звонок
             
-            #if options[3]:
             df["grouped_column"] = list(zip(df["Дата"].astype(str), df["Время"].astype(str), df["Клиент"]))
             
             df_last_call = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Клиент", "Сотрудник", "Должность"], keep='first')
-            #df = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Тип звонка", "Клиент", "Сотрудник", "Должность"], keep='first')
+            
+            if options[3]:
+                df = df.sort_values("grouped_column", ascending=False).drop_duplicates(subset=["Тип звонка", "Клиент", "Сотрудник", "Должность"], keep='first')
             
             #print(len(df))
             

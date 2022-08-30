@@ -40,8 +40,8 @@ if uploaded_report_file is not None:
         #st.write('You selected:', option3)
     
     col4, col5, col6, col7, col8, col9  = st.columns(6)
-    #with col4:
-    #    option4 = st.checkbox("Уникальные клиенты")
+    with col4:
+        option4 = st.checkbox("Уникальные клиенты")
 
     #with col5:
         #option2 = st.selectbox(
@@ -55,7 +55,7 @@ if uploaded_report_file is not None:
         #    ('Весь Период', 'Последний День'))
     #    st.write('You selected:', option3)
 
-    options = [option1, option2, option3] #, option4]
+    options = [option1, option2, option3, option4]
 
     # Формируем таблицу статистики за нужный временной период
     statistic_table, lost_clients_table = processor.set_statistic_day_table(options)
