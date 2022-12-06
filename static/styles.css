@@ -1,0 +1,226 @@
+
+@font-face {
+    font-family: "Hero Regular";
+    src: url("../static/fonts/UZSans-Medium.ttf");
+}
+
+
+* {
+    font-family: "Hero Regular";
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0 auto;
+    width: 95%;
+}
+
+.nuv-main {
+    padding-bottom: 20px;
+}
+
+.nuv-logo {
+    float:left;
+    height: 120px;
+    width: 700px;
+}
+
+.nuv-logo a, a:hover, a:active {
+    text-decoration: none;
+    color: rgb(25, 111, 160);
+}
+
+.logo {
+    float: left;
+    height: 130px;
+    width: 225px;
+    margin: 0;
+    padding: 0;
+    padding: 23px 0 0 33px;
+}
+
+
+.nuv-div-left-text {
+    padding-left: 290px;
+}
+
+.logo-name {
+    font-size: 40px;
+    padding: 0;
+    padding-top: 30px;
+    margin: 0;
+}
+
+.sub-l-text {
+    padding: 0;
+    margin: 0;
+    font-size: 17px; 
+    color: #000000;
+}
+
+.nuv-div-right-text {
+    float:right;
+    padding-top: 35px;
+}
+
+.right-text {
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    font-size: 30px;
+    color: rgb(25, 111, 160);
+}
+
+.sub-r-text {
+    float: right;
+    padding: 0;
+    margin: 0;
+    padding-top: 10px;
+    padding-left: 10px;
+    text-align: right;
+    font-size: 17px;
+}
+
+.sub-r-text a {
+    text-decoration: none;
+    color: #000000;
+    width: min-content;
+}
+
+.sub-r-text a:hover, a:active {
+    text-decoration: none;
+    color: rgb(25, 111, 160);
+}
+
+
+span {
+    color: rgb(231, 31, 138);
+}
+
+
+.main-block {
+    margin: 0 auto;
+    width: 80%;
+    height: 300px;
+}
+
+hr { 
+    display: block; 
+    height: 1px;
+    border: 0; 
+    border-top: 1px solid rgb(71, 65, 65);
+    margin: 1em 0; padding: 0; 
+}
+
+.file-form {}
+
+.form-btn {
+    width: 120px;
+    margin-left: 40px;
+}
+
+
+.header-p {
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+.header-table {
+    font-size: 35px;
+}
+
+.dataframe {
+    display: inline-block;
+}
+
+.dataframe table {
+    border-collapse: collapse;
+}
+
+.dataframe th{
+    color: #000000;
+    background: rgb(225, 244, 255);
+    cursor: pointer;
+}
+
+.dataframe td,
+.dataframe th {
+    width: 130px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid rgb(32, 124, 177);
+}
+
+.dataframe a {
+    color:rgb(71, 65, 65)
+}
+
+.dataframe a:hover {
+    color:rgb(25, 111, 160);
+}
+
+.dataframe tbody th{
+    color: #000000;
+    background: rgb(241, 250, 255);
+    width:min-content
+}
+
+.dataframe tbody tr:nth-child(even) {
+    background: rgb(241, 250, 255);
+}
+
+th.sorted[data-order="1"],
+th.sorted[data-order="-1"] {
+    position: relative;
+}
+
+th.sorted[data-order="1"]::after,
+th.sorted[data-order="-1"]::after {
+    right: 8px;
+    position: absolute;
+}
+
+th.sorted[data-order="-1"]::after {
+	content: "▼"
+}
+
+th.sorted[data-order="1"]::after {
+	content: "▲"
+}
+
+.table-filters label {
+    font-size: 20px;
+}
+
+.table-statistic {
+    margin: 0 auto;
+}
+
+.table-box {
+    width: max-content;
+    display: inline-block;
+    padding-right: 50px;
+    margin: 0 auto;
+}
+
+.table-lost-clients {
+    display: inline-block;
+    max-height: 800px;
+    overflow-y: scroll;
+}
+
+.table-filters .un-pad-marg {
+    padding: 0;
+    margin: 0 25px 0 0;
+
+}
+
+.table-filters label {
+    padding-left: 5px;
+}
+
+.time-btn {
+    padding-top: 38px;
+}

@@ -1,0 +1,189 @@
+
+
+{% extends "main.html" %}
+{% block title %} Get table {% endblock %}
+
+{% block tables %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+        const getSort = ({ target }) => {
+            const order = (target.dataset.order = -(target.dataset.order || -1));
+            const index = [...target.parentNode.cells].indexOf(target);
+            const collator = new Intl.Collator(['en', 'ru'], { numeric: true });
+            const comparator = (index, order) => (a, b) => order * collator.compare(
+                a.children[index].innerHTML,
+                b.children[index].innerHTML
+            );
+            
+            for(const tBody of target.closest('table').tBodies)
+                tBody.append(...[...tBody.rows].sort(comparator(index, order)));
+
+            for(const cell of target.parentNode.cells)
+                cell.classList.toggle('sorted', cell === target);
+        };
+
+        document.querySelectorAll('.dataframe thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
+
+        });
+
+
+        
+    </script>
+    
+    <br>
+    <div class="row">
+        <div class="col">
+            {% if file_or_api == "file" %}
+                <p class="header-p">Выбран <b>{{filename}}</b> файл</p>
+            {% else %}
+                <p class="header-p">Данные получены с АТС</p>
+            {% endif %}
+            <p class="header-p">Временной период: c <b>{{file_date[0]}}</b> по <b>{{file_date[1]}}</b></p>
+        </div>
+    </div>
+
+    <hr><br>
+    <form class="table-filters" action="/reset_table" method="post">
+        <div class="row">
+            <div class="col">
+                <label>Формат отчета (Действующие лица)</label>
+                {% if table_filters["table_formats"] %}
+                    <select id="inputState1" name="actors" class="form-control" onchange="this.form.submit()">
+                        {% for opt1 in table_filters["table_formats"] %}
+                            {% if opt1 == params["actors"] %}
+                                <option selected>{{opt1}}</option>    
+                            {% else %}
+                                <option>{{opt1}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                <br>
+                {% endif %}
+                <div class="form-check">
+                    {% if params["is_unique_users"] %}
+                        <input class="form-check-input" name="is_unique_users" type="checkbox" value="0" onchange="this.form.submit()" checked/>
+                    {% else%}
+                        <input class="form-check-input" name="is_unique_users" type="checkbox" value="1" onchange="this.form.submit()">
+                    {% endif %}
+                    <label class="form-check-label" for="defaultCheck1">
+                        Уникальные клиенты
+                    </label>
+                </div>
+                  
+            </div>
+
+            <div class="col">
+                <label>Филиалы</label>
+                {% if table_filters["table_filials"] %}
+                <select id="inputState2" name="filial" class="form-control" onchange="this.form.submit()">
+                    {% for opt2 in table_filters["table_filials"] %}
+                        {% if opt2 == params["filial"] %}
+                            <option selected>{{opt2}}</option>    
+                        {% else %}
+                            <option>{{opt2}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                {% endif %}
+            </div>
+
+            <div class="col row">
+                <label>Режим отчёта</label>
+                {% if table_filters["table_times"] %}
+                    <select id="inputState3" name="report_mode" class="form-control" onchange="this.form.submit()">
+                        {% for opt3 in table_filters["table_times"] %}
+                            {% if opt3 == params["report_mode"] %}
+                                <option selected>{{opt3}}</option>    
+                            {% else %}
+                                <option>{{opt3}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                {% endif %}
+                
+                <br><br>
+
+                <div class="col un-pad-marg">
+                    <label>От:</label>
+                    <input type="date" min="{{file_date[0]}}" max="{{file_date[1]}}" class="form-control" value="{{params['date_limits'][0]}}" name="DateIn">
+                </div>
+                
+                <div class="col un-pad-marg">
+                    <label>До:</label>
+                    <input type="date" min="{{file_date[0]}}" max="{{file_date[1]}}" class="form-control" value="{{params['date_limits'][1]}}" name="DateOut">
+                </div>
+                <div class="time-btn">
+                    <button  class="btn btn-outline-danger" type="submit">Подтвердить</button>
+                </div>
+                <br>
+            </div>
+        </div>
+    </form>
+
+    <br>
+    <br><br>
+    {% if is_valid == 0 %}
+        <div class="alert alert-info" role="alert">
+            Возникла ошибка с получением таблицы!
+            <br>
+            Проверьте заданные временные промежутки и режим отчета
+        </div>
+    {% else %}
+        <div class="table-statistic">
+            <div class="table-box">
+                <h2 class="header-table">Менеджеры / Магазины</h2>
+                
+                {{statistic_table.to_html(render_links=True, escape=False)|safe}}
+                
+                <form action="/download_st" method="post">
+                    <br>
+                    <input class="btn btn-outline-danger" type="submit" value="Скачать таблицу">
+                </form>
+            </div>
+        </div>
+        <form action="/download_unique_clients" method="post">
+            <br>
+            <input class="btn btn-outline-danger" type="submit" value="Скачать таблицу уникальных клиентов">
+        </form>
+        
+        <br><br>
+        
+        <div class="table-statistic">
+            {% if is_valid in [1, 2] %}
+                <div class="table-box">
+                    {% if is_valid == 1 %}
+                        <h2 class="header-table">Потерянные клиенты</h2>
+                    {% else %}
+                        <h2 class="header-table">Прозвонить</h2>
+                    {% endif %}
+                    <div class="table-lost-clients">{{lost_clients_table.to_html(render_links=True, escape=False)|safe}}</div>
+                    <form action="/download_rt" method="post">
+                        <br>
+                        <input class="btn btn-outline-danger" type="submit" value="Скачать таблицу">
+                    </form>
+                </div>
+            {% endif %}
+
+            {% if is_valid == 2 %}
+                <div class="table-box">
+                    <h2 class="header-table">Под прослушку</h2>
+                    <div class="table-lost-clients">{{add_table.to_html(render_links=True, escape=False)|safe}}</div>
+                    <form action="/download_at" method="post">
+                        <br>
+                        <input class="btn btn-outline-danger" type="submit" value="Скачать таблицу">
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+        <br><br><br>
+        
+        
+        
+        
+        <br><br><br>
+    {% endif %}
+    <br><br><br>
+    
+
+{% endblock %}

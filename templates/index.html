@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.jpg') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='Chart.min.js') }}"></script>
+    <title>TruckBazaSpace</title>
+  </head>
+  <body>
+
+    <style>
+  
+    </style>
+    <br>
+    <div class="nuv-main">
+      <div class="nuv-logo">
+          <div class="logo">
+              <a href="{{url_for('index')}}"><img src="/static/truck-logo.jpg" width="220" height="85"/></a>
+          </div>
+          <div class="nuv-div-left-text">
+              <a href="{{url_for('index')}}">
+                <p class="logo-name"><b>TruckBaza<span>Space</span></b></p>
+              </a>
+              <p class="sub-l-text">Уникальные технологии ведения бизнеса<p>
+          </div>
+      </div>
+      
+      <div class="nuv-div-right-text">
+          <p class="right-text"><b> Сбор и подсчет уникальных клиентов </b></p>
+          <p class="sub-r-text"> | <a href="https://truckbazastuff.herokuapp.com/"> Отдел Кадров </a></p>
+          <p class="sub-r-text"> Отдел аналитики </p>
+      </div>
+      <br><br>
+      <br><br>
+      
+    </div>
+    <hr>
+    
+    <div>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>
