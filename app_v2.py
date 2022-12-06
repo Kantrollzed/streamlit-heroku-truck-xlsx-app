@@ -9,7 +9,7 @@ import pytz
 
 app = Flask(__name__, static_folder="static")
 app.secret_key = "secret key"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://dzyzeaowvvroes:f7f9bb8bb589cccd1c5a653488735700845e16e402a87c7a56f34c003cbf94c7@ec2-44-193-178-122.compute-1.amazonaws.com:5432/d1gbgp4lcedffq'
+app.config['SQLALCHEMY_DATABASE_URI'] = ''
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.permanent_session_lifetime = timedelta(days=10)
 db = SQLAlchemy(app)
